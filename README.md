@@ -1,7 +1,5 @@
 
----
 
-##  `README.md`
 
 ````md
 # Rick and Morty Explorer
@@ -91,9 +89,3 @@ Since no API key was provided, I mocked the response with a set of predefined Ri
 
 ---
 
-```
-
----
-
-
-```
