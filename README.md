@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+---
 
-First, run the development server:
+##  `README.md`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+````md
+# Rick and Morty Explorer
+
+A small prototype app where users can search characters by location in the Rick and Morty universe and get a fun, AI-generated fact.
+
+---
+
+## a. How I Approached the Problem and Why
+I broke the task into 3 clear steps:
+1. **Data fetching** – Use the official Rick and Morty GraphQL API to get all characters living in a given location.
+2. **Presentation** – Display each character with structured information (name, species, origin, image) using a reusable `CharacterCard` component.
+3. **Enrichment** – Add one fun fact using an AI service. Since this prototype doesn’t use a real API key, I mocked the AI with a random fact generator to keep the architecture realistic without external dependencies.
+
+This approach kept the solution simple, modular, and aligned with the given requirements.
+
+---
+
+## b. The Model / Structure I Chose
+I represented the data using TypeScript-friendly models instead of rendering raw JSON:
+
+- **Character**
+  ```ts
+  {
+    id: string;
+    name: string;
+    image: string;
+    species: string;
+    origin: { name: string };
+    funFact?: string;
+  }
+````
+
+* **Location**
+
+  ```ts
+  {
+    name: string;
+    residents: Character[];
+  }
+  ```
+
+Additionally, I kept an **in-memory history** of searches:
+
+```ts
+Character[][] // array of past searches, each containing an array of Characters
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## c. The AI Prompt I Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If using a real AI model, I would call it once per search with this prompt:
 
-## Learn More
+```
+Give me a funny, one-sentence fact about a character named {name}, 
+who is a {species} from {origin}, in the Rick and Morty universe.
+```
 
-To learn more about Next.js, take a look at the following resources:
+Since no API key was provided, I mocked the response with a set of predefined Rick & Morty–style facts, chosen randomly.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## d. What Works, What Doesn’t, and What I’d Improve With More Time
 
-## Deploy on Vercel
+### ✅ What Works
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Users can search characters by location (e.g., “Earth”).
+* Displays structured character info (image, name, species, origin).
+* Adds one AI-generated (mocked) fun fact per search.
+* Tracks all past searches in memory and displays a history.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### What Doesn’t
+
+* The fun fact is mocked, not from a real AI.
+* No persistent storage — refreshing the page clears history.
+* Minimal error handling and no input validation beyond empty strings.
+
+### What I’d Improve
+
+* Integrate a real AI API (e.g., OpenAI) to generate fun facts dynamically.
+* Add a **clear history** button and search caching for efficiency.
+* Improve error handling (e.g., location not found vs. API errors).
+* Expand fun facts to all characters instead of just one.
+* Add pagination or infinite scroll for locations with many residents.
+* Write tests (unit + integration) for components and services.
+
+---
+
+```
+
+---
+
+
+```
